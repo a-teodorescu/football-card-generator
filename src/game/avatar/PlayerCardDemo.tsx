@@ -60,7 +60,7 @@ export default function PlayerCardDemo({ player }: PlayerCardDemoProps) {
             seed={seed}
             primaryColor={player.clubPrimaryColor}
             secondaryColor={player.clubSecondaryColor}
-            size={172}
+            size={144}
             title={`${player.name} procedural pixel avatar`}
           />
         </div>

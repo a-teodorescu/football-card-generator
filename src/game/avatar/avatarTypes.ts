@@ -14,22 +14,24 @@ export type PlayerCardData = {
   visualSeed?: string;
 };
 
-export type HeadShape = 'oval' | 'square' | 'round';
-export type FaceTemplate = 'balanced' | 'focused' | 'calm' | 'veteran';
-export type HairStyle = 'short' | 'side-part' | 'curly' | 'buzz' | 'messy' | 'crop' | 'bald';
-export type BeardStyle = 'none' | 'stubble' | 'moustache' | 'short-beard' | 'goatee';
-export type ShirtStyle = 'plain' | 'center-stripe' | 'shoulder-stripes' | 'horizontal-band' | 'split';
+export type PortraitFamily = 'classic' | 'wide' | 'sharp' | 'soft';
+export type FaceMood = 'neutral' | 'focused' | 'calm' | 'senior';
+export type HairStyle = 'short' | 'side-part' | 'wavy' | 'crop' | 'buzz' | 'curly' | 'afro' | 'bald';
+export type BeardStyle = 'none' | 'stubble' | 'moustache' | 'trimmed' | 'full';
+export type ShirtStyle = 'plain' | 'center-stripe' | 'side-panels' | 'shoulder-trim' | 'split';
+export type EyeStyle = 'standard' | 'narrow' | 'soft';
 
 export type AvatarDNA = {
+  portraitFamily: PortraitFamily;
+  faceMood: FaceMood;
   skinToneIndex: number;
   hairColorIndex: number;
   backgroundIndex: number;
-  headShape: HeadShape;
-  faceTemplate: FaceTemplate;
   hairStyle: HairStyle;
   beardStyle: BeardStyle;
   shirtStyle: ShirtStyle;
-  accessoryIndex: number;
+  eyeStyle: EyeStyle;
+  featureOffset: -1 | 0 | 1;
 };
 
 export type PlayerAvatarProps = {

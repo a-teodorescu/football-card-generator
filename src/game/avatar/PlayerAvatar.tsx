@@ -1,56 +1,62 @@
 import { generateAvatarDNA } from './avatarDNA';
-import { headRows, layout } from './avatarLayout';
-import { BACKGROUNDS, HAIR_COLORS, OUTLINE, OUTLINE_SOFT, SKIN_TONES, WHITE } from './avatarPalettes';
-import type { AvatarDNA, FaceTemplate, HeadShape, PlayerAvatarProps, ShirtStyle } from './avatarTypes';
+import { BACKGROUNDS, HAIR_COLORS, OUTLINE, OUTLINE_SOFT, SHIRT_WHITE, SKIN_TONES, WHITE } from './avatarPalettes';
+import type { AvatarDNA, BeardStyle, EyeStyle, HairStyle, PlayerAvatarProps, PortraitFamily, ShirtStyle } from './avatarTypes';
 
 type SkinTone = (typeof SKIN_TONES)[number];
 
-type RectDef = {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
+type HeadPaths = {
+  outline: string;
+  skin: string;
+  shadow: string;
+  light: string;
+  cheek: string;
+  earY: number;
 };
 
-function PixelRect({ x, y, w, h, fill, opacity = 1 }: RectDef & { fill: string; opacity?: number }) {
-  return <rect x={x} y={y} width={w} height={h} fill={fill} opacity={opacity} />;
-}
+const headPaths: Record<PortraitFamily, HeadPaths> = {
+  classic: {
+    outline: 'M17 9H31L35 13V28L32 35L28 38H20L16 35L13 28V13Z',
+    skin: 'M18 11H30L33 14V28L30 34L27 36H21L18 34L15 28V14Z',
+    shadow: 'M30 12L33 15V28L30 34L27 36H24V32H28L30 28V14Z',
+    light: 'M18 13H23V31H20L18 28Z',
+    cheek: 'M17 27H21V29H17Z M28 27H32V29H28Z',
+    earY: 19,
+  },
+  wide: {
+    outline: 'M16 10H32L36 15V29L33 35L28 38H20L15 35L12 29V15Z',
+    skin: 'M17 12H31L34 15V29L31 34L27 36H21L18 34L14 29V15Z',
+    shadow: 'M31 13L34 16V29L31 34L27 36H24V32H29L31 28Z',
+    light: 'M17 14H22V31H19L17 28Z',
+    cheek: 'M16 27H21V29H16Z M28 27H33V29H28Z',
+    earY: 19,
+  },
+  sharp: {
+    outline: 'M18 8H30L34 13V28L31 36L27 39H21L17 36L14 28V13Z',
+    skin: 'M19 10H29L32 14V28L29 34L26 37H22L19 34L16 28V14Z',
+    shadow: 'M29 11L32 15V28L29 34L26 37H24V32H28L29 28Z',
+    light: 'M19 12H23V31H20L19 28Z',
+    cheek: 'M18 27H21V29H18Z M28 27H31V29H28Z',
+    earY: 18,
+  },
+  soft: {
+    outline: 'M17 9H31L35 14V29L32 35L28 38H20L16 35L13 29V14Z',
+    skin: 'M18 11H30L33 15V29L30 34L27 36H21L18 34L15 29V15Z',
+    shadow: 'M30 12L33 16V29L30 34L27 36H24V32H28L30 28V15Z',
+    light: 'M18 13H23V31H20L18 28Z',
+    cheek: 'M17 27H21V29H17Z M28 27H32V29H28Z',
+    earY: 19,
+  },
+};
 
-function Background({ colors, variant }: { colors: string[]; variant: number }) {
-  const [main, dark, accent] = colors;
-
+function Background({ palette }: { palette: string[] }) {
+  const [main, dark, accent] = palette;
   return (
     <>
-      <rect x="0" y="0" width="96" height="96" fill={dark} />
-      <rect x="5" y="5" width="86" height="86" fill={main} />
-      <rect x="9" y="9" width="78" height="78" fill={WHITE} opacity="0.07" />
-      <rect x="14" y="14" width="68" height="68" fill={WHITE} opacity="0.045" />
-      <rect x="5" y="80" width="86" height="7" fill="#000000" opacity="0.18" />
-
-      {variant % 3 === 0 && (
-        <>
-          <rect x="13" y="15" width="18" height="4" fill={accent} opacity="0.42" />
-          <rect x="65" y="16" width="12" height="4" fill={accent} opacity="0.32" />
-          <rect x="18" y="67" width="14" height="4" fill={accent} opacity="0.3" />
-        </>
-      )}
-
-      {variant % 3 === 1 && (
-        <>
-          <rect x="14" y="16" width="4" height="52" fill={accent} opacity="0.24" />
-          <rect x="24" y="16" width="4" height="52" fill={accent} opacity="0.14" />
-          <rect x="72" y="22" width="4" height="44" fill={accent} opacity="0.18" />
-        </>
-      )}
-
-      {variant % 3 === 2 && (
-        <>
-          <rect x="16" y="18" width="6" height="6" fill={accent} opacity="0.38" />
-          <rect x="70" y="18" width="6" height="6" fill={accent} opacity="0.3" />
-          <rect x="24" y="72" width="6" height="6" fill={accent} opacity="0.22" />
-          <rect x="63" y="67" width="5" height="5" fill={accent} opacity="0.3" />
-        </>
-      )}
+      <rect x="0" y="0" width="48" height="48" fill={dark} />
+      <rect x="2" y="2" width="44" height="44" fill={main} />
+      <rect x="4" y="4" width="40" height="40" fill={WHITE} opacity="0.05" />
+      <rect x="2" y="42" width="44" height="4" fill="#000000" opacity="0.16" />
+      <path d="M5 7H20V8H5ZM31 8H42V9H31ZM7 36H19V37H7ZM33 36H43V37H33Z" fill={accent} opacity="0.22" />
     </>
   );
 }
@@ -58,37 +64,17 @@ function Background({ colors, variant }: { colors: string[]; variant: number }) 
 function Shirt({ primaryColor, secondaryColor, style }: { primaryColor: string; secondaryColor: string; style: ShirtStyle }) {
   return (
     <>
-      {/* Shoulder silhouette first, so the neck/head feel attached to a body. */}
-      <rect x="26" y="70" width="44" height="8" fill={OUTLINE} />
-      <rect x="19" y="76" width="58" height="16" fill={OUTLINE} />
-      <rect x="29" y="72" width="38" height="8" fill={primaryColor} />
-      <rect x="22" y="78" width="52" height="13" fill={primaryColor} />
-      <rect x="24" y="88" width="48" height="3" fill="#000000" opacity="0.22" />
+      <path d="M13 37H35L42 42V48H6V42Z" fill={OUTLINE} />
+      <path d="M15 38H33L40 43V48H8V43Z" fill={primaryColor} />
+      <path d="M19 37H29L31 40L24 43L17 40Z" fill={OUTLINE_SOFT} />
+      <path d="M20 37H28L29 39L24 41L19 39Z" fill={SHIRT_WHITE} />
+      <path d="M21 37H27L24 40Z" fill="#dbe4f0" />
+      <path d="M8 46H40V48H8Z" fill="#000000" opacity="0.18" />
 
-      {/* Collar locked to the neck position. */}
-      <rect x="38" y="69" width="20" height="11" fill={OUTLINE} />
-      <rect x="41" y="70" width="14" height="8" fill="#e2e8f0" />
-      <rect x="44" y="70" width="8" height="5" fill="#f8fafc" />
-
-      {style === 'center-stripe' && <rect x="45" y="78" width="6" height="13" fill={secondaryColor} />}
-      {style === 'shoulder-stripes' && (
-        <>
-          <rect x="22" y="82" width="14" height="4" fill={secondaryColor} />
-          <rect x="60" y="82" width="14" height="4" fill={secondaryColor} />
-        </>
-      )}
-      {style === 'horizontal-band' && (
-        <>
-          <rect x="23" y="81" width="50" height="4" fill={secondaryColor} />
-          <rect x="24" y="88" width="48" height="2" fill={secondaryColor} opacity="0.72" />
-        </>
-      )}
-      {style === 'split' && (
-        <>
-          <rect x="22" y="78" width="26" height="13" fill={secondaryColor} />
-          <rect x="45" y="78" width="3" height="13" fill={OUTLINE} opacity="0.3" />
-        </>
-      )}
+      {style === 'center-stripe' && <path d="M22 42H26V48H22Z" fill={secondaryColor} opacity="0.9" />}
+      {style === 'side-panels' && <path d="M8 43H15V48H8ZM33 43H40V48H33Z" fill={secondaryColor} opacity="0.9" />}
+      {style === 'shoulder-trim' && <path d="M9 42H18V44H9ZM30 42H39V44H30" fill={secondaryColor} opacity="0.95" />}
+      {style === 'split' && <path d="M8 43H24V48H8Z" fill={secondaryColor} opacity="0.86" />}
     </>
   );
 }
@@ -96,78 +82,64 @@ function Shirt({ primaryColor, secondaryColor, style }: { primaryColor: string; 
 function Neck({ skin }: { skin: SkinTone }) {
   return (
     <>
-      <rect x="37" y="63" width="22" height="15" fill={OUTLINE} />
-      <rect x="40" y="64" width="16" height="12" fill={skin.base} />
-      <rect x="52" y="64" width="4" height="12" fill={skin.shadow} opacity="0.86" />
-      <rect x="40" y="64" width="5" height="5" fill={skin.light} opacity="0.72" />
-      <rect x="40" y="75" width="16" height="3" fill={skin.dark} opacity="0.28" />
+      <path d="M19 32H29V39H19Z" fill={OUTLINE} />
+      <path d="M20 32H28V38H20Z" fill={skin.base} />
+      <path d="M25 32H28V38H25Z" fill={skin.shadow} opacity="0.7" />
+      <path d="M20 37H28V39H20Z" fill={skin.dark} opacity="0.25" />
     </>
   );
 }
 
-function Ears({ skin, headShape }: { skin: SkinTone; headShape: HeadShape }) {
-  const y = headShape === 'round' ? layout.ears.y + 1 : layout.ears.y;
-
+function Ears({ skin, family }: { skin: SkinTone; family: PortraitFamily }) {
+  const y = headPaths[family].earY;
   return (
     <>
-      <rect x="22" y={y} width="8" height="14" fill={OUTLINE} />
-      <rect x="66" y={y} width="8" height="14" fill={OUTLINE} />
-      <rect x="25" y={y + 2} width="5" height="10" fill={skin.base} />
-      <rect x="66" y={y + 2} width="5" height="10" fill={skin.shadow} />
-      <rect x="27" y={y + 5} width="3" height="4" fill={skin.shadow} opacity="0.62" />
-      <rect x="66" y={y + 5} width="3" height="4" fill={skin.dark} opacity="0.5" />
+      <path d={`M11 ${y}H15V28H11Z M33 ${y}H37V28H33Z`} fill={OUTLINE} />
+      <path d={`M12 ${y + 1}H15V27H12Z M33 ${y + 1}H36V27H33Z`} fill={skin.base} />
+      <path d={`M13 ${y + 4}H15V25H13Z M33 ${y + 4}H35V25H33Z`} fill={skin.shadow} opacity="0.62" />
     </>
   );
 }
 
-function Head({ skin, headShape }: { skin: SkinTone; headShape: HeadShape }) {
-  const rows = headRows[headShape];
-
+function Head({ skin, family }: { skin: SkinTone; family: PortraitFamily }) {
+  const paths = headPaths[family];
   return (
     <>
-      {/* Shared outline: every feature is anchored inside this same silhouette. */}
-      {rows.map((row) => (
-        <PixelRect key={`outline-${row.x}-${row.y}`} x={row.x - 3} y={row.y - 2} w={row.w + 6} h={row.h + 4} fill={OUTLINE} />
-      ))}
-
-      {rows.map((row) => (
-        <PixelRect key={`skin-${row.x}-${row.y}`} x={row.x} y={row.y} w={row.w} h={row.h} fill={skin.base} />
-      ))}
-
-      {/* One consistent lighting model: highlight left/top, shade right/bottom. */}
-      <rect x="33" y="25" width="10" height="26" fill={skin.light} opacity="0.46" />
-      <rect x="30" y="34" width="4" height="13" fill={skin.light} opacity="0.26" />
-      <rect x="61" y="26" width="5" height="29" fill={skin.shadow} opacity="0.82" />
-      <rect x="56" y="56" width="8" height="7" fill={skin.shadow} opacity="0.58" />
-      <rect x="40" y="63" width="16" height="3" fill={skin.shadow} opacity="0.42" />
-      <rect x="34" y="48" width="5" height="3" fill={skin.blush} opacity="0.35" />
-      <rect x="57" y="48" width="5" height="3" fill={skin.blush} opacity="0.28" />
+      <path d={paths.outline} fill={OUTLINE} />
+      <path d={paths.skin} fill={skin.base} />
+      <path d={paths.light} fill={skin.light} opacity="0.34" />
+      <path d={paths.shadow} fill={skin.shadow} opacity="0.48" />
+      <path d="M18 35H30V36H18Z" fill={skin.dark} opacity="0.22" />
+      <path d={paths.cheek} fill={skin.blush} opacity="0.28" />
     </>
   );
 }
 
-function Hair({ style, color, headShape }: { style: AvatarDNA['hairStyle']; color: string; headShape: HeadShape }) {
+function Hair({ style, color, family }: { style: HairStyle; color: string; family: PortraitFamily }) {
   const dark = OUTLINE;
-  const shine = '#ffffff';
-  const topY = headShape === 'square' ? 15 : 14;
-
+  const low = '#000000';
   if (style === 'bald') {
-    return (
-      <>
-        <rect x="38" y="18" width="20" height="3" fill={shine} opacity="0.12" />
-        <rect x="34" y="22" width="6" height="2" fill={shine} opacity="0.1" />
-      </>
-    );
+    return <path d="M20 12H28V13H20ZM18 15H21V16H18" fill={WHITE} opacity="0.12" />;
   }
 
   if (style === 'buzz') {
     return (
       <>
-        <rect x="35" y="16" width="26" height="5" fill={dark} />
-        <rect x="31" y="21" width="34" height="8" fill={dark} />
-        <rect x="34" y="19" width="28" height="8" fill={color} />
-        <rect x="31" y="25" width="34" height="4" fill={color} />
-        <rect x="38" y="19" width="5" height="4" fill={shine} opacity="0.13" />
+        <path d="M17 9H31L34 13V18H14V13Z" fill={dark} />
+        <path d="M18 10H30L32 13V17H16V13Z" fill={color} />
+        <path d="M18 10H30V12H18Z" fill={WHITE} opacity="0.1" />
+        <path d="M16 16H32V18H16Z" fill={low} opacity="0.18" />
+      </>
+    );
+  }
+
+  if (style === 'short') {
+    return (
+      <>
+        <path d="M17 8H31L35 13V20H32V17H28V15H20V17H16V21H13V14Z" fill={dark} />
+        <path d="M18 9H30L33 13V17H30V15H20V17H16V20H15V14Z" fill={color} />
+        <path d="M20 10H27V12H20ZM17 14H22V16H17" fill={WHITE} opacity="0.14" />
+        <path d="M30 13H33V18H30Z" fill="#000000" opacity="0.18" />
       </>
     );
   }
@@ -175,66 +147,20 @@ function Hair({ style, color, headShape }: { style: AvatarDNA['hairStyle']; colo
   if (style === 'side-part') {
     return (
       <>
-        <rect x="34" y="13" width="27" height="6" fill={dark} />
-        <rect x="30" y="18" width="36" height="9" fill={dark} />
-        <rect x="28" y="25" width="13" height="9" fill={dark} />
-        <rect x="58" y="24" width="11" height="8" fill={dark} />
-        <rect x="36" y="15" width="23" height="6" fill={color} />
-        <rect x="31" y="20" width="34" height="6" fill={color} />
-        <rect x="31" y="26" width="10" height="5" fill={color} />
-        <rect x="55" y="25" width="10" height="5" fill={color} />
-        <rect x="41" y="18" width="3" height="9" fill={dark} opacity="0.58" />
-        <rect x="45" y="18" width="10" height="3" fill={shine} opacity="0.12" />
+        <path d="M18 7H31L35 12V21H31V17H26V15H19V18H15V22H13V14Z" fill={dark} />
+        <path d="M19 8H30L33 12V17H30V15H24V13H19V17H16V20H15V14Z" fill={color} />
+        <path d="M19 9H27V11H19ZM27 11H33V13H27" fill={WHITE} opacity="0.14" />
+        <path d="M18 12H24V14H18" fill="#000000" opacity="0.18" />
       </>
     );
   }
 
-  if (style === 'curly') {
+  if (style === 'wavy') {
     return (
       <>
-        {[
-          [33, topY, 9, 8],
-          [42, topY - 2, 8, 8],
-          [50, topY, 10, 8],
-          [28, 21, 10, 9],
-          [38, 20, 10, 9],
-          [49, 20, 10, 9],
-          [59, 22, 8, 8],
-          [29, 29, 8, 5],
-          [60, 29, 8, 5],
-        ].map(([x, y, w, h]) => (
-          <rect key={`${x}-${y}`} x={x} y={y} width={w} height={h} fill={dark} />
-        ))}
-        {[
-          [35, topY + 2, 6, 5],
-          [43, topY, 6, 5],
-          [51, topY + 2, 6, 5],
-          [31, 23, 7, 6],
-          [40, 22, 7, 6],
-          [50, 22, 7, 6],
-          [59, 24, 6, 5],
-        ].map(([x, y, w, h]) => (
-          <rect key={`c-${x}-${y}`} x={x} y={y} width={w} height={h} fill={color} />
-        ))}
-      </>
-    );
-  }
-
-  if (style === 'messy') {
-    return (
-      <>
-        <rect x="34" y="13" width="27" height="6" fill={dark} />
-        <rect x="29" y="19" width="39" height="10" fill={dark} />
-        <rect x="27" y="27" width="12" height="8" fill={dark} />
-        <rect x="59" y="26" width="11" height="8" fill={dark} />
-        <rect x="36" y="15" width="8" height="6" fill={color} />
-        <rect x="46" y="13" width="8" height="8" fill={color} />
-        <rect x="55" y="16" width="7" height="7" fill={color} />
-        <rect x="31" y="21" width="35" height="6" fill={color} />
-        <rect x="30" y="28" width="9" height="4" fill={color} />
-        <rect x="58" y="28" width="8" height="4" fill={color} />
-        <rect x="39" y="21" width="4" height="4" fill={dark} opacity="0.46" />
-        <rect x="52" y="21" width="4" height="4" fill={dark} opacity="0.46" />
+        <path d="M17 8H30L35 12V21H31V17H28V15H24V18H20V16H16V22H13V14Z" fill={dark} />
+        <path d="M18 9H29L33 12V17H30V15H27V13H24V16H21V14H17V20H15V14Z" fill={color} />
+        <path d="M20 9H27V11H20ZM29 12H33V14H29ZM17 15H22V17H17" fill={WHITE} opacity="0.12" />
       </>
     );
   }
@@ -242,212 +168,93 @@ function Hair({ style, color, headShape }: { style: AvatarDNA['hairStyle']; colo
   if (style === 'crop') {
     return (
       <>
-        <rect x="34" y="15" width="28" height="6" fill={dark} />
-        <rect x="30" y="21" width="36" height="7" fill={dark} />
-        <rect x="31" y="27" width="10" height="6" fill={dark} />
-        <rect x="56" y="27" width="10" height="6" fill={dark} />
-        <rect x="36" y="17" width="24" height="5" fill={color} />
-        <rect x="32" y="23" width="32" height="5" fill={color} />
-        <rect x="35" y="28" width="7" height="3" fill={color} />
-        <rect x="54" y="28" width="8" height="3" fill={color} />
+        <path d="M16 9H32L35 14V22H32V18H29V16H19V18H16V22H13V15Z" fill={dark} />
+        <path d="M18 10H31L33 14V17H29V15H19V17H16V20H15V15Z" fill={color} />
+        <path d="M18 11H31V13H18" fill={WHITE} opacity="0.1" />
       </>
     );
   }
 
-  return (
-    <>
-      <rect x="34" y="14" width="28" height="7" fill={dark} />
-      <rect x="30" y="20" width="36" height="9" fill={dark} />
-      <rect x="29" y="28" width="9" height="6" fill={dark} />
-      <rect x="59" y="28" width="8" height="6" fill={dark} />
-      <rect x="36" y="16" width="24" height="6" fill={color} />
-      <rect x="32" y="22" width="32" height="6" fill={color} />
-      <rect x="31" y="29" width="7" height="3" fill={color} />
-      <rect x="58" y="29" width="6" height="3" fill={color} />
-      <rect x="41" y="17" width="8" height="3" fill={shine} opacity="0.12" />
-    </>
-  );
+  if (style === 'curly' || style === 'afro') {
+    const afro = style === 'afro';
+    return (
+      <>
+        <path d={afro ? 'M15 8H33L37 13V22H34V25H31V19H17V25H14V22H11V14Z' : 'M16 8H32L36 13V22H33V18H30V16H18V18H15V23H12V15Z'} fill={dark} />
+        <path d={afro ? 'M16 9H32L35 13V21H32V18H16V22H14V14Z' : 'M17 9H31L34 13V18H31V16H18V18H15V21H14V15Z'} fill={color} />
+        <path d="M18 10H21V13H18ZM23 9H26V12H23ZM29 11H32V14H29ZM16 15H19V18H16ZM25 15H28V18H25" fill={WHITE} opacity="0.09" />
+        <path d="M20 13H23V16H20ZM31 15H34V19H31" fill="#000000" opacity="0.16" />
+      </>
+    );
+  }
+
+  return null;
 }
 
-function Eyes({ face }: { face: FaceTemplate }) {
-  const eyeY = layout.head.eyeY;
-  const browY = layout.head.browY;
-  const eyeColor = face === 'calm' ? '#1f2937' : '#020617';
-
-  if (face === 'focused') {
-    return (
-      <>
-        <rect x="34" y={browY} width="10" height="3" fill={OUTLINE} />
-        <rect x="53" y={browY} width="10" height="3" fill={OUTLINE} />
-        <rect x="36" y={eyeY} width="7" height="3" fill={eyeColor} />
-        <rect x="54" y={eyeY} width="7" height="3" fill={eyeColor} />
-        <rect x="40" y={eyeY} width="2" height="1" fill={WHITE} opacity="0.7" />
-        <rect x="58" y={eyeY} width="2" height="1" fill={WHITE} opacity="0.7" />
-      </>
-    );
-  }
-
-  if (face === 'veteran') {
-    return (
-      <>
-        <rect x="35" y={browY} width="9" height="2" fill={OUTLINE} />
-        <rect x="53" y={browY} width="9" height="2" fill={OUTLINE} />
-        <rect x="36" y={eyeY} width="6" height="3" fill={eyeColor} />
-        <rect x="55" y={eyeY} width="6" height="3" fill={eyeColor} />
-        <rect x="33" y="41" width="8" height="2" fill={OUTLINE_SOFT} opacity="0.24" />
-        <rect x="55" y="41" width="8" height="2" fill={OUTLINE_SOFT} opacity="0.24" />
-      </>
-    );
-  }
-
-  if (face === 'calm') {
-    return (
-      <>
-        <rect x="35" y={browY} width="9" height="2" fill={OUTLINE} opacity="0.82" />
-        <rect x="53" y={browY} width="9" height="2" fill={OUTLINE} opacity="0.82" />
-        <rect x="36" y={eyeY} width="7" height="2" fill={eyeColor} />
-        <rect x="54" y={eyeY} width="7" height="2" fill={eyeColor} />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <rect x="35" y={browY} width="9" height="2" fill={OUTLINE} />
-      <rect x="53" y={browY} width="9" height="2" fill={OUTLINE} />
-      <rect x="36" y={eyeY} width="7" height="4" fill={WHITE} opacity="0.82" />
-      <rect x="54" y={eyeY} width="7" height="4" fill={WHITE} opacity="0.82" />
-      <rect x="39" y={eyeY} width="3" height="4" fill={eyeColor} />
-      <rect x="57" y={eyeY} width="3" height="4" fill={eyeColor} />
-    </>
-  );
-}
-
-function Nose({ skin, face }: { skin: SkinTone; face: FaceTemplate }) {
-  const wide = face === 'veteran';
-
-  return (
-    <>
-      <rect x="47" y="40" width="4" height="11" fill={skin.shadow} opacity="0.72" />
-      <rect x="45" y="48" width={wide ? 8 : 7} height="3" fill={skin.dark} opacity="0.5" />
-      <rect x="44" y="47" width="3" height="2" fill={skin.light} opacity="0.38" />
-      <rect x="51" y="47" width="3" height="2" fill={skin.shadow} opacity="0.5" />
-    </>
-  );
-}
-
-function Mouth({ face }: { face: FaceTemplate }) {
-  if (face === 'focused') {
-    return <rect x="42" y="56" width="13" height="3" fill="#4a1f1d" opacity="0.86" />;
-  }
-
-  if (face === 'calm') {
-    return (
-      <>
-        <rect x="42" y="56" width="12" height="2" fill="#4a1f1d" opacity="0.72" />
-        <rect x="54" y="55" width="2" height="2" fill="#4a1f1d" opacity="0.72" />
-      </>
-    );
-  }
-
-  if (face === 'veteran') {
-    return (
-      <>
-        <rect x="41" y="56" width="14" height="2" fill="#3f1715" opacity="0.82" />
-        <rect x="43" y="59" width="10" height="2" fill={OUTLINE_SOFT} opacity="0.22" />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <rect x="42" y="55" width="13" height="2" fill="#4a1f1d" opacity="0.82" />
-      <rect x="45" y="57" width="8" height="2" fill="#7f2d2a" opacity="0.42" />
-    </>
-  );
-}
-
-function Beard({ style, color, skin }: { style: AvatarDNA['beardStyle']; color: string; skin: SkinTone }) {
+function Beard({ style, hairColor, skin }: { style: BeardStyle; hairColor: string; skin: SkinTone }) {
   if (style === 'none') return null;
 
-  const beardColor = color;
-  const dark = OUTLINE;
-
   if (style === 'stubble') {
-    return (
-      <>
-        <rect x="36" y="52" width="24" height="3" fill={beardColor} opacity="0.22" />
-        <rect x="34" y="55" width="28" height="4" fill={beardColor} opacity="0.26" />
-        <rect x="38" y="60" width="19" height="3" fill={beardColor} opacity="0.22" />
-      </>
-    );
+    return <path d="M18 30H30V34H28V35H20V34H18Z" fill={OUTLINE} opacity="0.18" />;
   }
 
   if (style === 'moustache') {
-    return (
-      <>
-        <rect x="40" y="51" width="16" height="3" fill={dark} opacity="0.45" />
-        <rect x="42" y="51" width="5" height="3" fill={beardColor} />
-        <rect x="50" y="51" width="5" height="3" fill={beardColor} />
-      </>
-    );
+    return <path d="M20 29H23V30H25V29H28V31H20Z" fill={hairColor} />;
   }
 
-  if (style === 'goatee') {
+  if (style === 'trimmed') {
     return (
       <>
-        <rect x="40" y="51" width="16" height="3" fill={beardColor} />
-        <rect x="44" y="57" width="9" height="8" fill={dark} />
-        <rect x="45" y="57" width="7" height="7" fill={beardColor} />
-        <rect x="45" y="63" width="7" height="2" fill={skin.dark} opacity="0.22" />
+        <path d="M17 28H31V33L28 36H20L17 33Z" fill={OUTLINE} opacity="0.88" />
+        <path d="M19 29H29V33L27 35H21L19 33Z" fill={hairColor} />
+        <path d="M20 28H23V29H25V28H28V30H20Z" fill={hairColor} />
+        <path d="M21 31H27V32H21Z" fill={skin.base} opacity="0.92" />
       </>
     );
   }
 
   return (
     <>
-      {/* Beard follows the jaw rows instead of floating below the mouth. */}
-      <rect x="33" y="50" width="30" height="7" fill={dark} opacity="0.5" />
-      <rect x="31" y="56" width="34" height="7" fill={dark} />
-      <rect x="38" y="63" width="20" height="5" fill={dark} />
-      <rect x="35" y="52" width="26" height="5" fill={beardColor} />
-      <rect x="34" y="57" width="29" height="5" fill={beardColor} />
-      <rect x="40" y="62" width="16" height="4" fill={beardColor} />
-      <rect x="42" y="55" width="12" height="3" fill="#3f1715" opacity="0.82" />
+      <path d="M16 27H32V34L28 38H20L16 34Z" fill={OUTLINE} />
+      <path d="M18 28H30V34L27 36H21L18 34Z" fill={hairColor} />
+      <path d="M20 28H23V30H25V28H28V31H20Z" fill={hairColor} />
+      <path d="M21 32H27V33H21Z" fill={skin.base} opacity="0.9" />
+      <path d="M27 29H30V35H27Z" fill="#000000" opacity="0.16" />
     </>
   );
 }
 
-function Accessory({ index }: { index: number }) {
-  if (index !== 0) return null;
-
+function Eyes({ style, offset }: { style: EyeStyle; offset: -1 | 0 | 1 }) {
+  const y = style === 'narrow' ? 21 : 22;
+  const h = style === 'soft' ? 2 : 1;
   return (
     <>
-      <rect x="33" y="35" width="12" height="2" fill={OUTLINE} opacity="0.92" />
-      <rect x="52" y="35" width="12" height="2" fill={OUTLINE} opacity="0.92" />
-      <rect x="45" y="36" width="7" height="1" fill={OUTLINE} opacity="0.8" />
-      <rect x="36" y="36" width="6" height="3" fill={WHITE} opacity="0.22" />
-      <rect x="55" y="36" width="6" height="3" fill={WHITE} opacity="0.22" />
+      <path d={`M18 ${y - 2}H23V${y - 1}H18ZM27 ${y - 2}H32V${y - 1}H27Z`} fill={OUTLINE} opacity="0.9" />
+      <path d={`M19 ${y}H23V${y + h}H19ZM27 ${y}H31V${y + h}H27Z`} fill={OUTLINE} />
+      <path d={`M20 ${y}H21V${y + 1}H20ZM28 ${y}H29V${y + 1}H28Z`} fill={WHITE} opacity="0.95" />
+      {offset !== 0 && <path d={`M${offset > 0 ? 21 : 19} ${y + 1}H${offset > 0 ? 22 : 20}V${y + 2}H${offset > 0 ? 21 : 19}Z`} fill={OUTLINE} opacity="0.45" />}
     </>
   );
 }
 
-function AvatarBody({ dna, primaryColor, secondaryColor }: { dna: AvatarDNA; primaryColor: string; secondaryColor: string }) {
-  const skin = SKIN_TONES[dna.skinToneIndex];
-  const hairColor = HAIR_COLORS[dna.hairColorIndex];
-
+function Nose({ skin, mood }: { skin: SkinTone; mood: AvatarDNA['faceMood'] }) {
+  const long = mood === 'senior' || mood === 'focused';
   return (
     <>
-      <Shirt primaryColor={primaryColor} secondaryColor={secondaryColor} style={dna.shirtStyle} />
-      <Neck skin={skin} />
-      <Ears skin={skin} headShape={dna.headShape} />
-      <Head skin={skin} headShape={dna.headShape} />
-      <Hair style={dna.hairStyle} color={hairColor} headShape={dna.headShape} />
-      <Eyes face={dna.faceTemplate} />
-      <Nose skin={skin} face={dna.faceTemplate} />
-      <Beard style={dna.beardStyle} color={hairColor} skin={skin} />
-      <Mouth face={dna.faceTemplate} />
-      <Accessory index={dna.accessoryIndex} />
+      <path d={long ? 'M24 23H26V29H28V31H23V29H24Z' : 'M24 24H26V29H28V30H23V29H24Z'} fill={skin.shadow} opacity="0.72" />
+      <path d="M23 29H25V30H23Z" fill={skin.light} opacity="0.45" />
+      <path d="M26 30H28V31H26Z" fill={skin.dark} opacity="0.34" />
+    </>
+  );
+}
+
+function Mouth({ beardStyle, mood }: { beardStyle: BeardStyle; mood: AvatarDNA['faceMood'] }) {
+  const y = beardStyle === 'full' || beardStyle === 'trimmed' ? 32 : 31;
+  const width = mood === 'calm' ? 'M21' : 'M20';
+  const end = mood === 'calm' ? 'H27' : 'H28';
+  return (
+    <>
+      <path d={`${width} ${y}${end}V${y + 1}${width}Z`} fill={OUTLINE} opacity="0.72" />
+      {mood === 'neutral' && <path d="M21 32H27V33H21Z" fill={WHITE} opacity="0.18" />}
     </>
   );
 }
@@ -456,29 +263,37 @@ export default function PlayerAvatar({
   seed,
   primaryColor = '#2563eb',
   secondaryColor = '#facc15',
-  size = 168,
+  size = 172,
   className,
-  title = 'Procedural pixel football player avatar',
+  title,
 }: PlayerAvatarProps) {
   const dna = generateAvatarDNA(seed);
-  const background = BACKGROUNDS[dna.backgroundIndex];
+  const skin = SKIN_TONES[dna.skinToneIndex % SKIN_TONES.length];
+  const hairColor = HAIR_COLORS[dna.hairColorIndex % HAIR_COLORS.length];
+  const background = BACKGROUNDS[dna.backgroundIndex % BACKGROUNDS.length];
 
   return (
     <svg
       className={className ? `pixel-avatar ${className}` : 'pixel-avatar'}
       width={size}
       height={size}
-      viewBox="0 0 96 96"
+      viewBox="0 0 48 48"
       role="img"
-      aria-label={title}
-      xmlns="http://www.w3.org/2000/svg"
+      aria-label={title ?? 'Generated football player avatar'}
       shapeRendering="crispEdges"
     >
-      <title>{title}</title>
-      <Background colors={background} variant={dna.backgroundIndex} />
-      <AvatarBody dna={dna} primaryColor={primaryColor} secondaryColor={secondaryColor} />
-      <rect x="5" y="5" width="86" height="86" fill="none" stroke={OUTLINE} strokeWidth="3" />
-      <rect x="9" y="9" width="78" height="78" fill="none" stroke={WHITE} strokeOpacity="0.16" strokeWidth="1" />
+      {title ? <title>{title}</title> : null}
+      <Background palette={background} />
+      <Shirt primaryColor={primaryColor} secondaryColor={secondaryColor} style={dna.shirtStyle} />
+      <Neck skin={skin} />
+      <Ears skin={skin} family={dna.portraitFamily} />
+      <Head skin={skin} family={dna.portraitFamily} />
+      <Beard style={dna.beardStyle} hairColor={hairColor} skin={skin} />
+      <Hair style={dna.hairStyle} color={hairColor} family={dna.portraitFamily} />
+      <Eyes style={dna.eyeStyle} offset={dna.featureOffset} />
+      <Nose skin={skin} mood={dna.faceMood} />
+      <Mouth beardStyle={dna.beardStyle} mood={dna.faceMood} />
+      <path d="M2 2H46V3H2ZM2 45H46V46H2ZM2 2H3V46H2ZM45 2H46V46H45Z" fill={WHITE} opacity="0.16" />
     </svg>
   );
 }

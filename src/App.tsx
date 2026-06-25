@@ -4,7 +4,7 @@ import { generateDemoSquad } from './game/demo/squadGenerator';
 
 function App() {
   const [squadNumber, setSquadNumber] = useState(1);
-  const squadSeed = `demo-squad-${squadNumber}`;
+  const squadSeed = `clean-portrait-squad-${squadNumber}`;
   const demoPlayers = useMemo(() => generateDemoSquad(squadSeed, 12), [squadSeed]);
 
   const averageOverall = Math.round(
@@ -18,21 +18,21 @@ function App() {
   return (
     <main className="app-shell">
       <section className="hero">
-        <p className="eyebrow">Football Manager Lite</p>
-        <h1>Procedural Pixel Player Cards</h1>
+        <p className="eyebrow">Clean 16-bit Pixel-Art Football Manager Portrait Style</p>
+        <h1>Player Portrait Generator v3.0</h1>
         <p className="subtitle">
-          Demo v2.0: avatar cohesion rebuild — cap, păr, barbă, gât și tricou refăcute pe un template comun.
-          Totul rămâne procedural, fără AI, fără poze reale și fără cost per card.
+          Reconstrucție pe avatar intern 48x48: portrete head + shoulders, păr compact, barbă integrată,
+          siluetă matură și carduri mai simple, apropiate de un football manager.
         </p>
 
         <div className="club-panel" aria-label="Demo squad summary">
           <div>
-            <span>Club</span>
-            <strong>{demoPlayers[0]?.clubName ?? 'Demo FC'}</strong>
+            <span>Style</span>
+            <strong>Clean 16-bit</strong>
           </div>
           <div>
-            <span>Sezon</span>
-            <strong>2026/27</strong>
+            <span>Avatar base</span>
+            <strong>48x48</strong>
           </div>
           <div>
             <span>Avg OVR</span>
