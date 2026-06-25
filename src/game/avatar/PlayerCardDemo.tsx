@@ -6,19 +6,52 @@ type PlayerCardDemoProps = {
   player: PlayerCardData;
 };
 
+const positionLabels: Record<string, string> = {
+  GK: 'Goalkeeper',
+  LB: 'Left Back',
+  CB: 'Centre Back',
+  RB: 'Right Back',
+  DM: 'Defensive Mid',
+  CM: 'Central Mid',
+  AM: 'Attacking Mid',
+  LW: 'Left Wing',
+  RW: 'Right Wing',
+  ST: 'Striker',
+};
+
+function getPotentialClass(overall: number, potential: number) {
+  const gap = potential - overall;
+
+  if (potential >= 84 || gap >= 18) return 'elite';
+  if (potential >= 76 || gap >= 10) return 'good';
+  return 'solid';
+}
+
 export default function PlayerCardDemo({ player }: PlayerCardDemoProps) {
   const seed = player.visualSeed ?? `${player.id}-${player.name}-${player.nationality}`;
+  const potentialClass = getPotentialClass(player.overall, player.potential);
+  const roleLabel = positionLabels[player.position] ?? 'Player';
 
   return (
     <article
       className="player-card"
       style={{
         '--club-primary': player.clubPrimaryColor,
+        '--club-secondary': player.clubSecondaryColor,
       } as CSSProperties}
     >
       <div className="card-content">
-        <div className="card-topline">
-          <span className="position-badge">{player.position}</span>
+        <div className="card-header">
+          <div className="rating-stack" aria-label={`Overall rating ${player.overall}`}>
+            <span className="rating-value">{player.overall}</span>
+            <span className="rating-label">OVR</span>
+          </div>
+
+          <div className="identity-stack">
+            <span className="position-badge">{player.position}</span>
+            <span className="role-label">{roleLabel}</span>
+          </div>
+
           <span className="nationality-badge">{player.nationality}</span>
         </div>
 
@@ -27,28 +60,28 @@ export default function PlayerCardDemo({ player }: PlayerCardDemoProps) {
             seed={seed}
             primaryColor={player.clubPrimaryColor}
             secondaryColor={player.clubSecondaryColor}
-            size={164}
+            size={172}
             title={`${player.name} procedural pixel avatar`}
           />
         </div>
 
-        <div>
+        <div className="player-info">
           <h2 className="player-name">{player.name}</h2>
           <p className="club-name">{player.clubName}</p>
         </div>
 
-        <div className="stats-row">
-          <div className="stat-pill">
-            <span className="stat-label">AGE</span>
-            <span className="stat-value">{player.age}</span>
+        <div className="quick-stats" aria-label="Player summary">
+          <div className="quick-stat">
+            <span>Age</span>
+            <strong>{player.age}</strong>
           </div>
-          <div className="stat-pill">
-            <span className="stat-label">OVR</span>
-            <span className="stat-value">{player.overall}</span>
+          <div className={`quick-stat potential ${potentialClass}`}>
+            <span>Potential</span>
+            <strong>{player.potential}</strong>
           </div>
-          <div className="stat-pill">
-            <span className="stat-label">POT</span>
-            <span className="stat-value">{player.potential}</span>
+          <div className="quick-stat">
+            <span>Growth</span>
+            <strong>+{Math.max(0, player.potential - player.overall)}</strong>
           </div>
         </div>
       </div>

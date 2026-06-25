@@ -7,15 +7,46 @@ function App() {
   const squadSeed = `demo-squad-${squadNumber}`;
   const demoPlayers = useMemo(() => generateDemoSquad(squadSeed, 12), [squadSeed]);
 
+  const averageOverall = Math.round(
+    demoPlayers.reduce((total, player) => total + player.overall, 0) / demoPlayers.length,
+  );
+  const averagePotential = Math.round(
+    demoPlayers.reduce((total, player) => total + player.potential, 0) / demoPlayers.length,
+  );
+  const topTalent = demoPlayers.reduce((best, player) => (player.potential > best.potential ? player : best), demoPlayers[0]);
+
   return (
     <main className="app-shell">
       <section className="hero">
         <p className="eyebrow">Football Manager Lite</p>
         <h1>Procedural Pixel Player Cards</h1>
         <p className="subtitle">
-          Demo v1.1: un lot de 12 jucători generați procedural. Fiecare jucător are un seed stabil,
-          deci aceeași persoană primește mereu același avatar pixel-art.
+          Demo v1.2: carduri redesenate, avataruri mai variate și un prim panou de lot. Totul este generat
+          procedural, fără AI, fără poze reale și fără cost per card.
         </p>
+
+        <div className="club-panel" aria-label="Demo squad summary">
+          <div>
+            <span>Club</span>
+            <strong>{demoPlayers[0]?.clubName ?? 'Demo FC'}</strong>
+          </div>
+          <div>
+            <span>Sezon</span>
+            <strong>2026/27</strong>
+          </div>
+          <div>
+            <span>Avg OVR</span>
+            <strong>{averageOverall}</strong>
+          </div>
+          <div>
+            <span>Avg POT</span>
+            <strong>{averagePotential}</strong>
+          </div>
+          <div>
+            <span>Top talent</span>
+            <strong>{topTalent?.name ?? '-'}</strong>
+          </div>
+        </div>
 
         <div className="demo-toolbar" aria-label="Demo controls">
           <div>

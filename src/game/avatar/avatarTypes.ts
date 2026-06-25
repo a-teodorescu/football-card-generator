@@ -23,6 +23,8 @@ export type AvatarDNA = {
   beardStyleIndex: number;
   eyebrowStyleIndex: number;
   headShapeIndex: number;
+  noseStyleIndex: number;
+  cheekStyleIndex: number;
   backgroundIndex: number;
   shirtStyleIndex: number;
 };

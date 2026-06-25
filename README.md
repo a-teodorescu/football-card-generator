@@ -1,16 +1,22 @@
 # Football Card Generator
 
-Demo React + Vite + TypeScript pentru generarea procedurală a cardurilor de jucători.
+React + Vite + TypeScript demo pentru carduri de jucători generate procedural, fără AI și fără poze reale.
 
-## Ce include v1.1
+## Versiune
 
-- 12 jucători generați procedural într-un grid.
-- Buton **Generează alt lot** pentru a vedea rapid alte combinații.
-- Avataruri SVG pixel-art generate local, fără AI și fără poze reale.
-- Seed determinist: același `visualSeed` produce mereu același avatar.
-- Config Netlify inclusă.
+v1.2
 
-## Rulare locală
+## Ce include
+
+- grid cu 12 jucători generați procedural;
+- buton pentru generarea unui alt lot demo;
+- card redesign mai apropiat de un joc de football manager;
+- avataruri pixel-art mai variate;
+- panou de lot cu club, sezon, average OVR, average POT și top talent;
+- seed determinist pentru avataruri;
+- compatibil Netlify.
+
+## Local
 
 ```bash
 npm install
@@ -32,4 +38,8 @@ Build command: npm run build
 Publish directory: dist
 ```
 
-Repository-ul nu trebuie să conțină `node_modules`, `dist` sau `package-lock.json`.
+Nu urca în GitHub:
+
+- `node_modules`
+- `dist`
+- arhiva `.zip`

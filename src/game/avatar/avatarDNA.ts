@@ -33,14 +33,16 @@ export function generateAvatarDNA(seed: string): AvatarDNA {
 
   return {
     skinToneIndex: pickIndex(SKIN_TONES.length, rng),
-    hairStyleIndex: pickIndex(8, rng),
+    hairStyleIndex: pickIndex(12, rng),
     hairColorIndex: pickIndex(HAIR_COLORS.length, rng),
-    eyeStyleIndex: pickIndex(4, rng),
-    mouthStyleIndex: pickIndex(4, rng),
-    beardStyleIndex: pickIndex(5, rng),
-    eyebrowStyleIndex: pickIndex(4, rng),
-    headShapeIndex: pickIndex(3, rng),
+    eyeStyleIndex: pickIndex(5, rng),
+    mouthStyleIndex: pickIndex(5, rng),
+    beardStyleIndex: pickIndex(7, rng),
+    eyebrowStyleIndex: pickIndex(5, rng),
+    headShapeIndex: pickIndex(5, rng),
+    noseStyleIndex: pickIndex(4, rng),
+    cheekStyleIndex: pickIndex(4, rng),
     backgroundIndex: pickIndex(BACKGROUNDS.length, rng),
-    shirtStyleIndex: pickIndex(4, rng),
+    shirtStyleIndex: pickIndex(7, rng),
   };
 }
