@@ -1,17 +1,12 @@
-# Football Card Generator — v4.0 Visual Test
+# Football Card Generator — v4.1 Visual Test
 
-This is a visual direction test, not the final generator.
+Visual test pentru direcția asset-based a portretelor.
 
-Goal:
-- test 48x48 static pixel portrait assets;
-- evaluate cleaner hair, jaw and beard integration;
-- choose an art direction before rebuilding the procedural generator.
+Schimbări v4.1:
+- avatar-05 folosit ca referință de stil
+- nasul avatarului 5 a fost micșorat/curățat
+- părul celorlalți este mai compact
+- fiecare avatar are gură vizibilă
+- toate portretele rămân 48x48 px PNG
 
-Netlify:
-- Build command: `npm run build`
-- Publish directory: `dist`
-
-Important:
-- Do not upload `node_modules`.
-- Do not upload `dist`.
-- Do not upload `.zip` files to GitHub.
+Nu este încă generator procedural final. Este test vizual pentru art direction.

@@ -5,9 +5,9 @@ function App() {
     <main className="page-shell">
       <section className="hero">
         <p className="eyebrow">Visual test only · no gameplay</p>
-        <h1>v4.0 Asset-Based Portrait Direction</h1>
+        <h1>v4.1 Asset-Based Portrait Direction</h1>
         <p className="subtitle">
-          Test simplu pentru direcția vizuală: 6 portrete statice 48×48 px, afișate pe carduri curate.
+          Test simplu pentru direcția vizuală: 6 portrete statice 48×48 px, refăcute pe baza avatarului 5: păr compact, gură vizibilă, nas mai mic.
           Scopul nu este generatorul final, ci să alegem dacă stilul de portret merge în direcția bună.
         </p>
       </section>
@@ -15,7 +15,7 @@ function App() {
       <section className="decision-panel">
         <div>
           <strong>Ce testăm aici</strong>
-          <span>păr compact · barbă integrată · cap + umeri · 48×48 px · stil 16-bit simplificat</span>
+          <span>baza avatar-05 · nas corectat · păr compact · gură vizibilă · 48×48 px</span>
         </div>
         <div>
           <strong>Ce NU este încă</strong>
