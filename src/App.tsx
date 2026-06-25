@@ -1,68 +1,53 @@
-import { useMemo, useState } from 'react';
-import PlayerCardDemo from './game/avatar/PlayerCardDemo';
-import { generateDemoSquad } from './game/demo/squadGenerator';
+import { visualPlayers } from './data/players';
 
 function App() {
-  const [squadNumber, setSquadNumber] = useState(1);
-  const squadSeed = `clean-portrait-squad-${squadNumber}`;
-  const demoPlayers = useMemo(() => generateDemoSquad(squadSeed, 12), [squadSeed]);
-
-  const averageOverall = Math.round(
-    demoPlayers.reduce((total, player) => total + player.overall, 0) / demoPlayers.length,
-  );
-  const averagePotential = Math.round(
-    demoPlayers.reduce((total, player) => total + player.potential, 0) / demoPlayers.length,
-  );
-  const topTalent = demoPlayers.reduce((best, player) => (player.potential > best.potential ? player : best), demoPlayers[0]);
-
   return (
-    <main className="app-shell">
+    <main className="page-shell">
       <section className="hero">
-        <p className="eyebrow">Clean 16-bit Pixel-Art Football Manager Portrait Style</p>
-        <h1>Player Portrait Generator v3.0</h1>
+        <p className="eyebrow">Visual test only · no gameplay</p>
+        <h1>v4.0 Asset-Based Portrait Direction</h1>
         <p className="subtitle">
-          Reconstrucție pe avatar intern 48x48: portrete head + shoulders, păr compact, barbă integrată,
-          siluetă matură și carduri mai simple, apropiate de un football manager.
+          Test simplu pentru direcția vizuală: 6 portrete statice 48×48 px, afișate pe carduri curate.
+          Scopul nu este generatorul final, ci să alegem dacă stilul de portret merge în direcția bună.
         </p>
+      </section>
 
-        <div className="club-panel" aria-label="Demo squad summary">
-          <div>
-            <span>Style</span>
-            <strong>Clean 16-bit</strong>
-          </div>
-          <div>
-            <span>Avatar base</span>
-            <strong>48x48</strong>
-          </div>
-          <div>
-            <span>Avg OVR</span>
-            <strong>{averageOverall}</strong>
-          </div>
-          <div>
-            <span>Avg POT</span>
-            <strong>{averagePotential}</strong>
-          </div>
-          <div>
-            <span>Top talent</span>
-            <strong>{topTalent?.name ?? '-'}</strong>
-          </div>
+      <section className="decision-panel">
+        <div>
+          <strong>Ce testăm aici</strong>
+          <span>păr compact · barbă integrată · cap + umeri · 48×48 px · stil 16-bit simplificat</span>
         </div>
-
-        <div className="demo-toolbar" aria-label="Demo controls">
-          <div>
-            <span className="toolbar-label">Lot demo</span>
-            <strong>#{squadNumber}</strong>
-          </div>
-          <button type="button" onClick={() => setSquadNumber((current) => current + 1)}>
-            Generează alt lot
-          </button>
+        <div>
+          <strong>Ce NU este încă</strong>
+          <span>nu este generator procedural final · nu are toate variantele · nu este gameplay</span>
         </div>
       </section>
 
-      <section className="cards-grid" aria-label="Demo player cards">
-        {demoPlayers.map((player) => (
-          <PlayerCardDemo key={player.id} player={player} />
+      <section className="cards-grid" aria-label="Static portrait candidates">
+        {visualPlayers.map((player) => (
+          <article className="player-card" key={player.id} style={{ '--club-color': player.clubColor } as React.CSSProperties}>
+            <div className="card-top">
+              <span className="number">{player.number}</span>
+              <span className="position">{player.position}</span>
+            </div>
+            <div className="portrait-frame">
+              <img className="portrait" src={player.portrait} alt={`${player.name} portrait`} />
+            </div>
+            <div className="identity">
+              <h2>{player.name}</h2>
+              <span>{player.country} · OVR {player.overall}</span>
+            </div>
+            <p className="note">{player.note}</p>
+          </article>
         ))}
+      </section>
+
+      <section className="feedback-box">
+        <h2>Feedback util pentru următoarea iterație</h2>
+        <p>
+          Uită-te doar la portrete, nu la card. Spune-mi care dintre cele 6 este cea mai aproape de direcția dorită
+          și ce trebuie schimbat: cap, ochi, păr, barbă, culori, nivel de pixelare sau expresie.
+        </p>
       </section>
     </main>
   );
