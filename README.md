@@ -1,95 +1,35 @@
 # Football Card Generator
 
-Proiect React + Vite + TypeScript pentru testarea unui generator procedural de carduri pixel-art pentru jucători de fotbal.
+Demo React + Vite + TypeScript pentru generarea procedurală a cardurilor de jucători.
 
-## Ce conține
+## Ce include v1.1
 
-```txt
-src/game/avatar/
-  avatarTypes.ts
-  avatarDNA.ts
-  avatarPalettes.ts
-  PlayerAvatar.tsx
-  PlayerCardDemo.tsx
-```
+- 12 jucători generați procedural într-un grid.
+- Buton **Generează alt lot** pentru a vedea rapid alte combinații.
+- Avataruri SVG pixel-art generate local, fără AI și fără poze reale.
+- Seed determinist: același `visualSeed` produce mereu același avatar.
+- Config Netlify inclusă.
 
-Logica principală:
-
-```txt
-player id / visualSeed
-  ↓
-generateAvatarDNA(seed)
-  ↓
-alegere deterministă: piele, păr, ochi, barbă, tricou, fundal
-  ↓
-randare SVG pixel-art
-  ↓
-card jucător
-```
-
-Nu folosește AI, poze reale sau internet pentru generarea cardurilor.
-
-## Rulează local
+## Rulare locală
 
 ```bash
 npm install
 npm run dev
 ```
 
-Apoi deschide linkul afișat în terminal, de obicei:
-
-```txt
-http://localhost:5173
-```
-
-## Build local
+## Build
 
 ```bash
 npm run build
 ```
 
-Folderul generat pentru publicare este:
+## Netlify
 
-```txt
-dist
-```
-
-## Deploy pe Netlify
-
-### Varianta recomandată: GitHub + Netlify
-
-1. Creează un repository nou pe GitHub.
-2. Urcă toate fișierele din acest proiect în repository.
-3. În Netlify alege **Add new site → Import an existing project**.
-4. Conectează repository-ul GitHub.
-5. Setări build:
+Setările sunt deja în `netlify.toml`:
 
 ```txt
 Build command: npm run build
 Publish directory: dist
 ```
 
-În proiect există deja `netlify.toml`, deci Netlify ar trebui să detecteze automat aceste setări.
-
-### Varianta rapidă: manual deploy
-
-1. Rulează local:
-
-```bash
-npm install
-npm run build
-```
-
-2. Urcă folderul `dist` în Netlify la deploy manual.
-
-## Ce modifici ca să testezi avataruri diferite
-
-În `src/App.tsx`, schimbă `id`, `name` sau `nationality` la un jucător.
-
-Exemplu:
-
-```tsx
-id: 'player_9999'
-```
-
-Dacă schimbi seed-ul, se schimbă fața. Dacă revii la seed-ul vechi, fața revine identic.
+Repository-ul nu trebuie să conțină `node_modules`, `dist` sau `package-lock.json`.
