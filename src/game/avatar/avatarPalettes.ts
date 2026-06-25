@@ -10,7 +10,7 @@ export const SKIN_TONES = [
 ];
 
 export const HAIR_COLORS = [
-  '#171717',
+  '#151515',
   '#2b1d18',
   '#3f271f',
   '#5f3a20',
@@ -35,4 +35,5 @@ export const BACKGROUNDS = [
 
 export const WHITE = '#f8fafc';
 export const BLACK = '#020617';
-export const OUTLINE = '#0f172a';
+export const OUTLINE = '#0b1220';
+export const OUTLINE_SOFT = '#1e293b';

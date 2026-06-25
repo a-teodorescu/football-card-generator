@@ -1,4 +1,4 @@
-import type { AvatarDNA } from './avatarTypes';
+import type { AvatarDNA, BeardStyle, FaceTemplate, HairStyle, HeadShape, ShirtStyle } from './avatarTypes';
 import { BACKGROUNDS, HAIR_COLORS, SKIN_TONES } from './avatarPalettes';
 
 function hashString(input: string): number {
@@ -24,25 +24,56 @@ function createSeededRandom(seed: string): () => number {
   };
 }
 
-function pickIndex(length: number, rng: () => number): number {
-  return Math.floor(rng() * length);
+function pick<T>(items: readonly T[], rng: () => number): T {
+  return items[Math.floor(rng() * items.length)];
 }
+
+function weightedPick<T>(items: readonly { value: T; weight: number }[], rng: () => number): T {
+  const total = items.reduce((sum, item) => sum + item.weight, 0);
+  let roll = rng() * total;
+
+  for (const item of items) {
+    roll -= item.weight;
+    if (roll <= 0) return item.value;
+  }
+
+  return items[items.length - 1].value;
+}
+
+const headShapes: HeadShape[] = ['oval', 'square', 'round'];
+const faceTemplates: FaceTemplate[] = ['balanced', 'focused', 'calm', 'veteran'];
+const shirtStyles: ShirtStyle[] = ['plain', 'center-stripe', 'shoulder-stripes', 'horizontal-band', 'split'];
+
+const hairByHeadShape: Record<HeadShape, HairStyle[]> = {
+  oval: ['short', 'side-part', 'curly', 'messy', 'crop', 'bald'],
+  square: ['short', 'side-part', 'buzz', 'crop', 'messy', 'bald'],
+  round: ['short', 'curly', 'buzz', 'crop', 'side-part', 'bald'],
+};
+
+const beardWeights: { value: BeardStyle; weight: number }[] = [
+  { value: 'none', weight: 34 },
+  { value: 'stubble', weight: 26 },
+  { value: 'moustache', weight: 16 },
+  { value: 'short-beard', weight: 18 },
+  { value: 'goatee', weight: 6 },
+];
 
 export function generateAvatarDNA(seed: string): AvatarDNA {
   const rng = createSeededRandom(seed);
+  const headShape = pick(headShapes, rng);
+  const faceTemplate = pick(faceTemplates, rng);
+  const hairStyle = pick(hairByHeadShape[headShape], rng);
+  const beardStyle = faceTemplate === 'veteran' ? weightedPick(beardWeights, rng) : weightedPick(beardWeights, rng);
 
   return {
-    skinToneIndex: pickIndex(SKIN_TONES.length, rng),
-    hairStyleIndex: pickIndex(12, rng),
-    hairColorIndex: pickIndex(HAIR_COLORS.length, rng),
-    eyeStyleIndex: pickIndex(5, rng),
-    mouthStyleIndex: pickIndex(5, rng),
-    beardStyleIndex: pickIndex(7, rng),
-    eyebrowStyleIndex: pickIndex(5, rng),
-    headShapeIndex: pickIndex(5, rng),
-    noseStyleIndex: pickIndex(4, rng),
-    cheekStyleIndex: pickIndex(4, rng),
-    backgroundIndex: pickIndex(BACKGROUNDS.length, rng),
-    shirtStyleIndex: pickIndex(7, rng),
+    skinToneIndex: Math.floor(rng() * SKIN_TONES.length),
+    hairColorIndex: Math.floor(rng() * HAIR_COLORS.length),
+    backgroundIndex: Math.floor(rng() * BACKGROUNDS.length),
+    headShape,
+    faceTemplate,
+    hairStyle,
+    beardStyle,
+    shirtStyle: pick(shirtStyles, rng),
+    accessoryIndex: Math.floor(rng() * 7),
   };
 }

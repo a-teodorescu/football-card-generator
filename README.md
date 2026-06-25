@@ -1,20 +1,25 @@
-# Football Card Generator
+# Football Card Generator — v2.0 Avatar Cohesion Rebuild
 
-React + Vite + TypeScript demo pentru carduri de jucători generate procedural, fără AI și fără poze reale.
+Proiect React + Vite + TypeScript, pregătit pentru GitHub + Netlify.
 
-## Versiune
+## Ce este nou în v2.0
 
-v1.2
+- Avatarurile sunt refăcute pe un template comun de cap.
+- Ochii, nasul, gura, barba și părul folosesc zone fixe, ca să nu mai pară că „plutesc”.
+- Părul este ancorat pe scalp, nu lipit ca sticker.
+- Barba urmărește maxilarul.
+- Gâtul și tricoul sunt redesenate ca să lege capul de corp.
+- Mai puține combinații haotice, mai mult control vizual.
+- Generatorul rămâne procedural: fără AI, fără poze reale, fără cost per card.
 
-## Ce include
+## Netlify
 
-- grid cu 12 jucători generați procedural;
-- buton pentru generarea unui alt lot demo;
-- card redesign mai apropiat de un joc de football manager;
-- avataruri pixel-art mai variate;
-- panou de lot cu club, sezon, average OVR, average POT și top talent;
-- seed determinist pentru avataruri;
-- compatibil Netlify.
+Setările sunt în `netlify.toml`:
+
+```txt
+Build command: npm run build
+Publish directory: dist
+```
 
 ## Local
 
@@ -23,23 +28,12 @@ npm install
 npm run dev
 ```
 
-## Build
-
-```bash
-npm run build
-```
-
-## Netlify
-
-Setările sunt deja în `netlify.toml`:
-
-```txt
-Build command: npm run build
-Publish directory: dist
-```
+## Important
 
 Nu urca în GitHub:
 
-- `node_modules`
-- `dist`
-- arhiva `.zip`
+```txt
+node_modules
+dist
+package-lock.json
+```

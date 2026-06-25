@@ -14,19 +14,22 @@ export type PlayerCardData = {
   visualSeed?: string;
 };
 
+export type HeadShape = 'oval' | 'square' | 'round';
+export type FaceTemplate = 'balanced' | 'focused' | 'calm' | 'veteran';
+export type HairStyle = 'short' | 'side-part' | 'curly' | 'buzz' | 'messy' | 'crop' | 'bald';
+export type BeardStyle = 'none' | 'stubble' | 'moustache' | 'short-beard' | 'goatee';
+export type ShirtStyle = 'plain' | 'center-stripe' | 'shoulder-stripes' | 'horizontal-band' | 'split';
+
 export type AvatarDNA = {
   skinToneIndex: number;
-  hairStyleIndex: number;
   hairColorIndex: number;
-  eyeStyleIndex: number;
-  mouthStyleIndex: number;
-  beardStyleIndex: number;
-  eyebrowStyleIndex: number;
-  headShapeIndex: number;
-  noseStyleIndex: number;
-  cheekStyleIndex: number;
   backgroundIndex: number;
-  shirtStyleIndex: number;
+  headShape: HeadShape;
+  faceTemplate: FaceTemplate;
+  hairStyle: HairStyle;
+  beardStyle: BeardStyle;
+  shirtStyle: ShirtStyle;
+  accessoryIndex: number;
 };
 
 export type PlayerAvatarProps = {

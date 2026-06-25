@@ -21,8 +21,8 @@ function App() {
         <p className="eyebrow">Football Manager Lite</p>
         <h1>Procedural Pixel Player Cards</h1>
         <p className="subtitle">
-          Demo v1.2: carduri redesenate, avataruri mai variate și un prim panou de lot. Totul este generat
-          procedural, fără AI, fără poze reale și fără cost per card.
+          Demo v2.0: avatar cohesion rebuild — cap, păr, barbă, gât și tricou refăcute pe un template comun.
+          Totul rămâne procedural, fără AI, fără poze reale și fără cost per card.
         </p>
 
         <div className="club-panel" aria-label="Demo squad summary">
