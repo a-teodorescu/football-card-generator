@@ -1,0 +1,25 @@
+{
+  "project": "football-avatar-mini-generator",
+  "version": "0.3.6",
+  "type": "static HTML prototype",
+  "selected_presets": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    9
+  ],
+  "important": [
+    "This prototype uses approved master avatars as stable presets.",
+    "It does not yet assemble raw components layer-by-layer.",
+    "This avoids breaking the visual style while preparing the generator UX.",
+    "Next step is controlled component reconstruction and then real modular composition."
+  ],
+  "files": {
+    "entry": "index.html",
+    "data": "presets.json",
+    "assets": "assets/avatars"
+  }
+}

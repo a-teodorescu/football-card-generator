@@ -1,12 +1,33 @@
-# Football Card Generator — v4.1 Visual Test
+# Football Avatar Mini Generator v0.3.6
 
-Visual test pentru direcția asset-based a portretelor.
+Acesta este primul prototip de generator, făcut corect pe baza avatarurilor aprobate.
 
-Schimbări v4.1:
-- avatar-05 folosit ca referință de stil
-- nasul avatarului 5 a fost micșorat/curățat
-- părul celorlalți este mai compact
-- fiecare avatar are gură vizibilă
-- toate portretele rămân 48x48 px PNG
+## Cum îl rulezi
 
-Nu este încă generator procedural final. Este test vizual pentru art direction.
+Deschizi direct:
+
+```txt
+index.html
+```
+
+sau îl urci ca site static pe Netlify.
+
+## Ce face
+
+- afișează cele 7 avataruri aprobate
+- permite selectarea unui preset
+- are buton random pentru avataruri aprobate
+- are download PNG preview
+- păstrează stilul vizual corect
+
+## Ce NU face încă
+
+Nu combină încă ochi/nas/gură/păr ca layere reale.
+
+Asta e intenționat. Momentan folosim avatarurile aprobate ca preseturi stabile, ca să nu stricăm stilul.
+
+## Următorul pas
+
+```txt
+Pack v0.3.7 — reconstruire componente reale compatibile + prima compunere modulară controlată
+```

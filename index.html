@@ -1,12 +1,63 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Football Portrait Visual Test</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Football Avatar Mini Generator v0.3.6</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <h1>Football Avatar Generator</h1>
+        <p>Pack v0.3.6 · preseturi aprobate · stil final selectat</p>
+      </div>
+      <div class="badge">48×48 logic</div>
+    </header>
+
+    <section class="layout">
+      <aside class="panel controls">
+        <h2>Preseturi</h2>
+        <label>
+          Avatar aprobat
+          <select id="presetSelect"></select>
+        </label>
+
+        <div class="meta-grid">
+          <div><span>Skin</span><strong id="skinValue">-</strong></div>
+          <div><span>Hair</span><strong id="hairValue">-</strong></div>
+          <div><span>Beard</span><strong id="beardValue">-</strong></div>
+          <div><span>Shirt</span><strong id="shirtValue">-</strong></div>
+        </div>
+
+        <button id="randomBtn">Random approved avatar</button>
+        <button id="downloadBtn" class="secondary">Download PNG preview</button>
+
+        <p class="note">
+          Momentan acesta nu combină componente individuale. Folosește avatarurile aprobate ca preseturi stabile,
+          ca să nu stricăm stilul. Următorul pas este reconstruirea componentelor reale compatibile.
+        </p>
+      </aside>
+
+      <section class="panel stage">
+        <h2>Preview avatar</h2>
+        <div class="avatar-frame">
+          <img id="avatarImg" alt="Selected football avatar" />
+        </div>
+        <div class="scale-row">
+          <span>Output preview: 240×240</span>
+          <span>Source logic: 48×48</span>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel gallery">
+      <h2>Avataruri păstrate</h2>
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
 </html>

@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "name": "Avatar #1",
+    "skin": "Light",
+    "hair": "Side-part brown",
+    "beard": "None",
+    "shirt": "Blue",
+    "image48": "assets/avatars/48x48/avatar_01.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_01.png",
+    "raw": "assets/avatars/raw/avatar_01_raw.png"
+  },
+  {
+    "id": 2,
+    "name": "Avatar #2",
+    "skin": "Light",
+    "hair": "Spiky brown",
+    "beard": "None",
+    "shirt": "Red",
+    "image48": "assets/avatars/48x48/avatar_02.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_02.png",
+    "raw": "assets/avatars/raw/avatar_02_raw.png"
+  },
+  {
+    "id": 3,
+    "name": "Avatar #3",
+    "skin": "Dark",
+    "hair": "Curly dark",
+    "beard": "None",
+    "shirt": "Yellow",
+    "image48": "assets/avatars/48x48/avatar_03.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_03.png",
+    "raw": "assets/avatars/raw/avatar_03_raw.png"
+  },
+  {
+    "id": 4,
+    "name": "Avatar #4",
+    "skin": "Light",
+    "hair": "Slick black",
+    "beard": "Short beard",
+    "shirt": "Black & white",
+    "image48": "assets/avatars/48x48/avatar_04.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_04.png",
+    "raw": "assets/avatars/raw/avatar_04_raw.png"
+  },
+  {
+    "id": 5,
+    "name": "Avatar #5",
+    "skin": "Light",
+    "hair": "Spiky brown",
+    "beard": "Short beard",
+    "shirt": "White",
+    "image48": "assets/avatars/48x48/avatar_05.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_05.png",
+    "raw": "assets/avatars/raw/avatar_05_raw.png"
+  },
+  {
+    "id": 6,
+    "name": "Avatar #6",
+    "skin": "Dark",
+    "hair": "Blond dreads",
+    "beard": "None",
+    "shirt": "Green",
+    "image48": "assets/avatars/48x48/avatar_06.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_06.png",
+    "raw": "assets/avatars/raw/avatar_06_raw.png"
+  },
+  {
+    "id": 9,
+    "name": "Avatar #9",
+    "skin": "Light-medium",
+    "hair": "Slick black",
+    "beard": "Short beard",
+    "shirt": "Yellow",
+    "image48": "assets/avatars/48x48/avatar_09.png",
+    "imagePreview": "assets/avatars/preview_240/avatar_09.png",
+    "raw": "assets/avatars/raw/avatar_09_raw.png"
+  }
+]
